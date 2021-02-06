@@ -1,0 +1,155 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+
+
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div class="d-flex align-items-end"> 
+            <h2>{{searched_stockinfo.0}}</h2>
+            &nbsp;&nbsp;{{searched_stockinfo.1}}
+            &nbsp;
+        
+            <!-- Button trigger modal -->
+            <a class="btn btn-outline-success" href="#" role="button" data-toggle="modal" data-target="#exampleModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-plus" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4z"/>
+                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                </svg>
+            관심목록
+            </a>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{searched_stockinfo.0}}을 관심목록에 저장하시겠습니까?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button type="button"  onclick="location.href='{% url 'stock:save_favor' searched_stockinfo.0 searched_stockinfo.1 %}'" class="btn btn-success">관심목록 저장</button>
+                </div>
+                </div>
+            </div>
+            </div>
+
+        <!---->
+        </div>
+
+        <div class="d-inline-flex  mb-2 mb-md-0">
+          <div class="row">
+            <div class="col-sm text-center" style="width:250px;">
+              PER</br>
+              1111
+            </div>
+            <div class="col-sm text-center">
+              PBR</br>
+              1111
+            </div>
+            <div class="col-sm text-center">
+              PBR</br>
+              1111
+            </div>
+            <div class="col-sm text-center">
+              PBR</br>
+              1111
+            </div>
+            <div class="col-sm text-center">
+              배당수익률</br>
+              1111
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    <canvas class="my-3 w-50 border" id="myChart" width="900" height="380"></canvas>
+
+      <div class="p-4 p-md-2 mb-4 border-bottom text-white rounded bg-dark "><h4 class=>시세현황</h4></div>
+
+      <div class="table-responsive">
+        <table class="table">
+        <colgroup>
+        <col style="width: 23%;">
+        <col >
+        <col style="width: 23%;">
+        <col >
+        </colgroup>
+        <tbody>
+        <tr>
+        <th scope="row"><div>종가/ 전일대비</div></th>
+        <td>33,600/ <span>-100</span></td>
+        <th scope="row"><div>거래량</div></th>
+        <td> 357,322</td>
+        </tr>
+        <tr>
+        <th scope="row"><div>52주.최고가/ 최저가 </div></th>
+        <td>46,500/ 21,700</td>
+        <th scope="row"><div>거래대금<span>(억원)</span></div></th>
+        <td> 121</td>
+        </tr>
+        <tr>
+        <th scope="row"><div>수익률<span>(1M/ 3M/ 6M/ 1Y)</span></div></th>
+        <td><span>+6.16</span>/ <span>-0.44</span>/ <span>-21.77</span>/ <span>+2.91</span>
+        <th scope="row"><div>외국인 보유비중</div></th>
+        <td>8.56</td>
+        </tr>
+        <tr>
+
+        <th scope="row">
+          <div>
+            <!--
+            <dl>
+              <dt>시가총액(상장예정포함)</dt>
+              
+              <dd>시가총액(상장예정포함): 종가*(상장주식수+상장예정주식수), (보통주+우선주)<br>
+              시가총액(보통주)+시가총액(우선주)<br>
+              * 상장예정주식수: 유무상증자, 주식배당의 권리락일(배당락일)이 지났으나, 상장되지 않은 주식수
+              </dd>
+            
+            </dl>
+            -->
+            시가총액<span>(상장예정포함,억원)</span>
+          </div>
+        </th>
+
+        <td>23,803</td>
+        <th scope="row"><div>베타<span>(1년)</span></div></th>
+        <td>0.71853</td>
+        </tr>
+        <tr>
+        <th scope="row"><div><!--<dl><dt>시가총액(보통주)</dt><dd>종가(보통주)*상장주식수(보통주)</dd></dl>-->
+        시가총액<span>(보통주,억원)</span></div></th>
+        <td>23,565</td>
+        <th scope="row"><div>액면가</div></th>
+        <td>5,000</td>
+        </tr>
+        <tr>
+        <tr>
+        <th scope="row"><div>발행주식수<span>(보통주/ 우선주)</span></div></th>
+        <td>70,133,611/ 1,134,835</td>
+        <th scope="row">
+          <div>
+            <!--
+            <dl>
+              <dt>유동주식수/비율</dt>
+              <dd>유동주식비율 = 유동주식수 / 지수산정주식수 * 100.<br>유동주식수 = 지수산정주식수-(최대주주등(본인+특별관계자)+우리사주+자사주+보호예수+정부기관(5%이상)+해외DR).</dd>
+            </dl>
+            -->
+            유동주식수/비율<span>(보통주)</span>
+          </div>
+          
+        </th>
+        <td>30,609,810 / 43.64</td>
+        </tr>
+        </tbody>
+        </table>
+      </div>
+    </main>
+    
+{% endblock content %}

@@ -1,0 +1,36 @@
+{% extends "dashboard.html" %}
+{% block content %}
+
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div class="d-flex align-items-end"> 
+          <h2>관심 종목</h2>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th>종목코드</th>
+              <th>종목명</th>
+              <th>현재가 / 등락폭</th>
+              <th>거래량</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!--stockinfo : [종목명 ,종목코드,  종가/전일대비, 거래량] -->
+            {% for stockinfo in object_info_list %}
+            <tr>
+              <td><a href="{% url 'stock:stockinfo_detail' stockinfo.1 %}">{{stockinfo.1}}</a></td>
+              <td>{{stockinfo.0}}</td>
+              <td>{{stockinfo.2}}</td>
+              <td>{{stockinfo.3}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+{% endblock content %}
+
