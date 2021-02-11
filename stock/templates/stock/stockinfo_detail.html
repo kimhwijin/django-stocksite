@@ -16,7 +16,7 @@
                 <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4z"/>
                 <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
                 </svg>
-            관심목록제거
+            관심목록제거 
             </a>
 
             <!-- Modal -->
@@ -39,66 +39,100 @@
 
 
         </div>
-
+        {% with detailinfo.0 as topinfo %}
         <div class="d-inline-flex  mb-2 mb-md-0">
 
           <div class="row">
             <div class="col-sm text-center" style="width:250px;">
               PER</br>
-              {{ detailinfo.0 }}
+              {{ topinfo.0 }}
             </div>
             <div class="col-sm text-center">
               12M PER</br>
-              {{detailinfo.1}}
+              {{topinfo.1}}
             </div>
             <div class="col-sm text-center">
               업종 PER</br>
-              {{detailinfo.2}}
+              {{topinfo.2}}
             </div>
             <div class="col-sm text-center">
               PBR</br>
-              {{detailinfo.3}}
+              {{topinfo.3}}
             </div>
             <div class="col-sm text-center">
               배당수익률</br>
-              {{detailinfo.4}}
+              {{topinfo.4}}
             </div>
           </div>
         </div>
-
+        {% endwith %}
       </div>
-
+      
       <canvas class="my-3 w-50 border" id="myChart" width="900" height="380"></canvas>
 
-      <!-- 시세현황 -->
-      <div class="p-4 p-md-2 mb-4 border-bottom text-white rounded bg-dark "><h4 class=>시세현황</h4></div>
+      <script>
+      var ctx = document.getElementById('myChart');
+      
+      var closedt = {{ chartcloseinfo|safe }};
+      var dtdt = {{ chartdateinfo|safe }};
+      var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: dtdt,
+              datasets: [{
+                  label: [1],
+                  data: closedt,
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero: true
+                      }
+                  }]
+              }
+          }
+      });
+      </script>
 
+
+      <!-- 시세현황 -->
+
+      <div class="p-4 p-md-2 mb-4 border-bottom text-white rounded bg-secondary "><h4>시세현황</h4></div>
+
+      {% with detailinfo.1 as priceinfo %}
       <div class="table-responsive">
         <table class="table">
         <colgroup>
-        <col style="width: 23%;">
+        <col class = "table-secondary" style="width: 23%;">
         <col >
-        <col style="width: 23%;">
+        <col class = "table-secondary" style="width: 23%;">
         <col >
         </colgroup>
         <tbody>
         <tr>
         <th scope="row"><div>종가/ 전일대비</div></th>
-        <td> {{detailinfo.5}} </td>
+        {% if deltaprice %}
+        <td class = "text-end text-danger"> {{priceinfo.0}}</td>
+        {% else %}
+        <td class = "text-end text-primary"> {{priceinfo.0}}</td>
+        {% endif %}
         <th scope="row"><div>거래량</div></th>
-        <td> {{detailinfo.6}} </td>
+        <td class = "text-end"> {{priceinfo.1}} </td>
         </tr>
         <tr>
         <th scope="row"><div>52주.최고가/ 최저가 </div></th>
-        <td> {{detailinfo.7}} </td>
+        <td class = "text-end"> {{priceinfo.2}} </td>
         <th scope="row"><div>거래대금<span>(억원)</span></div></th>
-        <td> {{detailinfo.8}} </td>
+        <td class = "text-end"> {{priceinfo.3}} </td>
         </tr>
         <tr>
         <th scope="row"><div>수익률<span>(1M/ 3M/ 6M/ 1Y)</span></div></th>
-        <td> {{detailinfo.9}} </td>
+        <td class = "text-end"> {{priceinfo.4}} </td>
         <th scope="row"><div>외국인 보유비중</div></th>
-        <td> {{detailinfo.10}} </td>
+        <td class = "text-end"> {{priceinfo.5}} </td>
         </tr>
         <tr>
 
@@ -106,36 +140,37 @@
             시가총액<span>(상장예정포함,억원)</span>
           </div>
         </th>
-        <td> {{detailinfo.11}} </td>
+        <td class = "text-end"> {{priceinfo.6}} </td>
         <th scope="row"><div>베타<span>(1년)</span></div></th>
-        <td> {{detailinfo.12}} </td>
+        <td class = "text-end"> {{priceinfo.7}} </td>
         </tr>
         <tr>
         <th scope="row"><div><!--<dl><dt>시가총액(보통주)</dt><dd>종가(보통주)*상장주식수(보통주)</dd></dl>-->
         시가총액<span>(보통주,억원)</span></div></th>
-        <td> {{detailinfo.13}} </td>
+        <td class = "text-end"> {{priceinfo.8}} </td>
         <th scope="row"><div>액면가</div></th>
-        <td> {{detailinfo.14}} </td>
+        <td class = "text-end"> {{priceinfo.9}} </td>
         </tr>
         <tr>
         <tr>
         <th scope="row"><div>발행주식수<span>(보통주/ 우선주)</span></div></th>
-        <td> {{detailinfo.15}} </td>
+        <td class = "text-end"> {{priceinfo.10}} </td>
         <th scope="row">
           <div>
             유동주식수/비율<span>(보통주)</span>
           </div>
-          
         </th>
-        <td> {{detailinfo.16}} </td>
+        <td class = "text-end"> {{priceinfo.11}} </td>
         </tr>
         </tbody>
         </table>
       </div>
+      {% endwith %}
 
       <!-- 실적이슈  -->
-      <div class="p-4 p-md-2 mb-4 border-bottom text-white rounded bg-dark "><h4 class=>실적이슈</h4></div>
+      <div class="p-4 p-md-2 mb-4 border-bottom text-white rounded bg-secondary "><h4 class=>실적이슈</h4></div>
 
+      {% with detailinfo.2 as issueinfo %}
       <div class="table-responsive">
         <table class="table">
         <colgroup>
@@ -146,26 +181,29 @@
         </colgroup>
         <thead>
         <tr>
-        <th scope="col">잠정실적발표일</th>
-        <th scope="col">잠정실적<span class='stxt'>(영업이익,&nbsp;억원)</span></th>
-        <th scope="col">&nbsp;&nbsp;예상실적대비<span class='stxt'>(%)</span></th>
-        <th scope="col">&nbsp;&nbsp;전년동기대비<span class='stxt'>(%)</span></th>
+        <th class = "text-center" scope="col">잠정실적발표일</th>
+        <th class = "text-center" scope="col">잠정실적<span class='stxt'>(영업이익,&nbsp;억원)</span></th>
+        <th class = "text-center" scope="col">&nbsp;&nbsp;예상실적대비<span class='stxt'>(%)</span></th>
+        <th class = "text-center" scope="col">&nbsp;&nbsp;전년동기대비<span class='stxt'>(%)</span></th>
         </tr>
         </thead>
         <tbody>
         <tr>
-        <td>{{detailinfo.17}}</td>
-        <td>{{detailinfo.18}}</td>
-        <td>{{detailinfo.19}}</td>
-        <td>{{detailinfo.20}}</td>
+        <td class = "text-center">{{issueinfo.0}}</td>
+        <td class = "text-center">{{issueinfo.1}}</td>
+        <td class = "text-center">{{issueinfo.2}}</td>
+        <td class = "text-center">{{issueinfo.3}}</td>
         </tr>
         </tbody>
         </table>
       </div>
+      {% endwith %}
 
 
-      <div class="p-4 p-md-2 mb-4 border-bottom text-white rounded bg-dark "><h4 class=>운용사별 보유현황</h4></div>
+      <!-- 운용사별 보유현황-->
+      <div class="p-4 p-md-2 mb-4 border-bottom text-white rounded bg-secondary"><h4>&nbsp;운용사별 보유현황</h4></div>
 
+      {% with detailinfo.3 as managerinfo %}
       <div class="table-responsive">
         <table class="table">
         <colgroup>
@@ -185,66 +223,107 @@
         </tr>
         </thead>
         <tbody>
-        <tr><th scope="row"><div>삼성자산운용</div></th><td class="r">616.28</td><td class="r">4,030.44</td><td class="r">0.87</td><td class="cle r">0.88</td></tr>   
-        <tr><th scope="row"><div>미래에셋자산운용</div></th><td class="r">464.51</td><td class="r">3,037.87</td><td class="r">0.66</td><td class="cle r">0.92</td></tr>   
-        <tr><th scope="row"><div>케이비자산운용</div></th><td class="r">131.78</td><td class="r">861.82</td><td class="r">0.19</td><td class="cle r">0.48</td></tr>   
-        <tr><th scope="row"><div>한국투자신탁운용</div></th><td class="r">129.35</td><td class="r">845.92</td><td class="r">0.18</td><td class="cle r">0.66</td></tr>   
-        <tr><th scope="row"><div>신영자산운용</div></th><td class="r">115.49</td><td class="r">755.27</td><td class="r">0.16</td><td class="cle r">1.49</td></tr>   
-        <tr><th scope="row"><div>엔에이치아문디자산운용</div></th><td class="r">102.35</td><td class="r">669.36</td><td class="r">0.14</td><td class="cle r">0.49</td></tr>   
-        <tr><th scope="row"><div>하나유비에스자산운용</div></th><td class="r">81.78</td><td class="r">534.82</td><td class="r">0.12</td><td class="cle r">0.42</td></tr>   
-        <tr><th scope="row"><div>교보악사자산운용</div></th><td class="r">75.22</td><td class="r">491.96</td><td class="r">0.11</td><td class="cle r">0.64</td></tr>   
-        <tr><th scope="row"><div>신한자산운용</div></th><td class="r">68.44</td><td class="r">447.59</td><td class="r">0.10</td><td class="cle r">0.27</td></tr>   
-        <tr><th scope="row"><div>한화자산운용</div></th><td class="r">66.72</td><td class="r">436.35</td><td class="r">0.09</td><td class="cle r">0.50</td></tr>   
+        {% for rows in managerinfo %}
+          <tr>
+          {% for row in rows %}
+            {% if forloop.counter0 > 0 %}
+              <td class="r">{{row}}</td>
+            {% else %}
+              <th scope="row">{{row}}</th>
+            {% endif %}
+          {% endfor %}
+          </tr>
+        {% endfor %}
         </tbody>
         </table>
       </div>
-      
-      <div class="d-flex align-items-end bg-dark">
-      <div class="p-4 p-md-2 mb-4 border-bottom text-white rounded"><h4>주주현황</h5> <h4>주주구분 현황</h5></div>
-      </div>
+      {% endwith %}
 
-      <div class="table-responsive">
-        <table class="table">
-        <colgroup>
-        <col style="width: 25%;">
-        <col >
-        <col >
-        <col >
-        <col >
-        </colgroup>
-        <thead>
-        <tr>
-        <th scope="col">운용사명</th>
-        <th scope="col">보유수량(천주)</th>
-        <th scope="col">시가평가액(억원)</th>
-        <th scope="col">상장주식수내비중(%)</th>
-        <th scope="col">운용사내비중(%)</th>
-        </tr>
-        </thead>
-        </table>
-        
+
+      <div class="row">
+        <div class="col">
+        <!-- 주주현황 -->
+        <div class="p-4 p-md-1 mb-4 border-bottom text-white rounded bg-secondary "><h4>&nbsp;주주 현황</h4></div>
+
+        {% with detailinfo.4 as holderinfo %}
         <div class="table-responsive">
-        <table class="table">
-        <colgroup>
-        <col style="width: 25%;">
-        <col >
-        <col >
-        <col >
-        <col >
-        </colgroup>
-        <thead>
-        <tr>
-        <th scope="col">운용사명</th>
-        <th scope="col">보유수량(천주)</th>
-        <th scope="col">시가평가액(억원)</th>
-        <th scope="col">상장주식수내비중(%)</th>
-        <th scope="col">운용사내비중(%)</th>
-        </tr>
-        </thead>
-        </table>
-      </div>
-      </div>
+          <table class="table table-sm">
+          <colgroup>
+          <col style="width: 36%;">
+          <col >
+          <col >
+          <col >
+          </colgroup>
+          <thead>
+          <tr>
+          <th scope="col">항목</th>
+          <th scope="col">보통주</th>
+          <th scope="col">지분율</th>
+          <th scope="col">최종변동일</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for rows in holderinfo %}
+            <tr>
+            {% for row in rows %}
+              {% if forloop.counter0 > 0 %}
+                <td class="r">{{row}}</td>
+              {% else %}
+                <th scope="row">{{row}}</th>
+              {% endif %}
+            {% endfor %}
+            </tr>
+          {% endfor %}
 
+          </tbody>
+          </table>
+        </div>
+        {% endwith %}
+
+        </div>
+        <div class="col">
+        <!-- 주주구분 현황 -->
+        <div class="p-4 p-md-1 mb-4 border-bottom text-white rounded bg-secondary "><h4>&nbsp;주주구분 현황</h4></div>
+
+        {% with detailinfo.5 as holderinfo %}
+        <div class="table-responsive">
+          <table class="table table-sm">
+          <colgroup>
+          <col style="width: 36%;">
+          <col >
+          <col >
+          <col >
+          </colgroup>
+          <thead>
+          <tr>
+          <th scope="col">주주구분</th>
+          <th scope="col">대표주주수</th>
+          <th scope="col">보통주</th>
+          <th scope="col">지분율</th>
+          <th scope="col">최종변동일</th>
+          </tr>
+          </thead>
+          <tbody>
+
+          {% for rows in holderinfo %}
+            <tr>
+            {% for row in rows %}
+              {% if forloop.counter0 > 0 %}
+                <td class="r">{{row}}</td>
+              {% else %}
+                <th scope="row">{{row}}</th>
+              {% endif %}
+            {% endfor %}
+            </tr>
+          {% endfor %}
+          </tbody>
+          </table>
+        </div>
+        {% endwith %}
+
+
+        </div>
+      </div>
     </main>
     
 {% endblock content %}

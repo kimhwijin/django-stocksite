@@ -33,16 +33,25 @@ def StockInfo_List_View(request):
 
 
 #
+import json
 def StockInfo_Detail_View(request,code_number):
 
     stockinfo = get_object_or_404(StockInfo,code=code_number)
 
     
     detailinfo = django_crawler.get_all_detail_info(code_number)
-
+    chartinfo = django_crawler.get_chart_info(code_number)
+    chart_close_info = json.dumps(list(chartinfo.to_dict()['Close'].values()))
+    chart_date_info = json.dumps(list(chartinfo.to_dict()['Date'].values()))
+    print(chart_close_info)
+    print(chart_date_info)
+    
     context = {
         'stockinfo' : stockinfo,
         'detailinfo' : detailinfo,
+        'deltaprice' : django_crawler.get_price_info(code_number),
+        'chartcloseinfo': chart_close_info,
+        'chartdateinfo': chart_date_info,
     }
     print('detail')
     return render(request,'stock/stockinfo_detail.html',context)
@@ -61,14 +70,16 @@ def Search_Info(request):
         skw = search_keyword_form.cleaned_data['search_keyword']
         if len(skw) == 6 and skw.isdigit():
             kw_valid = True
-            temp_list = django_crawler.get_listinfo(skw)
+            detail_info = django_crawler.get_all_detail_info(skw)
+            list_info = django_crawler.get_listinfo(skw)
     else:
         skw = 'form_invalid'
-
+    
     context = {
         'search_keyword' : skw,
         'keyword_valid' : kw_valid,
-        'searched_stockinfo': temp_list,
+        'listinfo':list_info,
+        'detailinfo': detail_info,
     }
     print('search')
     return render(request, 'stock/stockinfo_search_result.html', context)
