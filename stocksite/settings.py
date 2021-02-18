@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'stocksite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-
+# .env file에 저장된 것 사용하거나 없으면 기본 설정 사용하도록 함
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get("MYSQL_ENGINE", 'django.db.backends.sqlite3'),
