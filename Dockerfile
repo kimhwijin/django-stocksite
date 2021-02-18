@@ -15,6 +15,14 @@ COPY requirements.txt /usr/src/app
 
 RUN apk update
 RUN apk add --update mysql mysql-client && rm -f /var/cache/apk/*
+
+RUN apk add --update curl gcc g++ \
+    && rm -rf /var/cache/apk/*
+
+RUN ln -s /usr/include/locale.h /usr/include/xlocale.h
+
+RUN pip install bottle numpy cython pandas
+
 COPY . /usr/src/app
 
 RUN pip install --upgrade pip
