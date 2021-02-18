@@ -82,12 +82,12 @@ WSGI_APPLICATION = 'stocksite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_db',
-        'USER': 'root',
-        'PASSWORD': 'Gnlwls01!',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'ENGINE': os.environ.get("MYSQL_ENGINE", 'django.db.backends.sqlite3'),
+        'NAME': os.environ.get('MYSQL_DATABASE', os.path.join(BASE_DIR, 'db.sqlite3'),
+        'USER': os.environ.get('MYSQL_USER', 'user'),
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD', 'password'),
+        'HOST': os.environ.get('MYSQL_HOST', '127.0.0.1'),
+        'PORT': os.environ.get('MYSQL_PORT', '3306'),
     }
 }
 
