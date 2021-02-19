@@ -64,6 +64,11 @@ Plz do the following steps carefully before you meet the whale.
   (venv) $ docker -v
   Docker version 19.x.x, build ******
   ```
+ - 도커 설치후 open //./pipe/docker_engine 에러발생시
+  ```window power shell
+ cd "C:\Program Files\Docker\Docker"
+ ./DockerCli.exe -SwitchDaemon
+  ```
 
 ### To make docker image
 
