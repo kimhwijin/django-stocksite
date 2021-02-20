@@ -207,3 +207,7 @@ Plz do the following steps carefully before you meet the whale.
   ```
 - 결과물로 출력된 경로를 확인하고, 같은 곳에 파일을 만든 뒤, `profile.ps1` 파일의 내용물을 넣으면 됨
 - 이후 `profile.ps1`에 정의된 단축어 사용 가능 (e.g., `dku`)
+
+## Docker window os containers 으로 변경방법
+ - window powersell 관리자권한 실행
+ - & $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon .
